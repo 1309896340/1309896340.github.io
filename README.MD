@@ -1,1 +1,1 @@
-"Wind's Blog" 
+Wind's Blog
