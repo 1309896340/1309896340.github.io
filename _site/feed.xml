@@ -1,20 +1,134 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-17T19:08:28+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Windwhisper’s Blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll/update/2024/08/17/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2024-08-17T16:37:05+08:00</published><updated>2024-08-17T16:37:05+08:00</updated><id>http://localhost:4000/jekyll/update/2024/08/17/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2024/08/17/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-17T20:54:17+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Windwhisper’s Blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">二叉树平衡调整</title><link href="http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html" rel="alternate" type="text/html" title="二叉树平衡调整" /><published>2024-08-17T00:00:00+08:00</published><updated>2024-08-17T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4</id><content type="html" xml:base="http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html"><![CDATA[<h2 id="不平衡树的4种基本情形">不平衡树的4种基本情形</h2>
+<ul>
+  <li><a href="#不平衡树的4种基本情形">不平衡树的4种基本情形</a>
+    <ul>
+      <li><a href="#ll型">LL型</a></li>
+      <li><a href="#rr型">RR型</a></li>
+      <li><a href="#lr型">LR型</a></li>
+      <li><a href="#rl型">RL型</a></li>
+    </ul>
+  </li>
+</ul>
 
-<p>Jekyll requires blog post files to be named according to the following format:</p>
+<h3 id="ll型">LL型</h3>
 
-<p><code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.MARKUP</code></p>
+<pre><code class="language-mermaid">graph TB
+root--&gt;a--&gt;b--&gt;c--&gt;Z
+a--&gt;X
+b--&gt;Y
+c--&gt;W
+</code></pre>
 
-<p>Where <code class="language-plaintext highlighter-rouge">YEAR</code> is a four-digit number, <code class="language-plaintext highlighter-rouge">MONTH</code> and <code class="language-plaintext highlighter-rouge">DAY</code> are both two-digit numbers, and <code class="language-plaintext highlighter-rouge">MARKUP</code> is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<p>变换步骤：<code class="language-plaintext highlighter-rouge">a</code> 相对 <code class="language-plaintext highlighter-rouge">b</code> 做 <code class="language-plaintext highlighter-rouge">右旋</code> 变换</p>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">a-&gt;left = b-&gt;right</code></li>
+  <li><code class="language-plaintext highlighter-rouge">b-&gt;right = a</code></li>
+  <li><code class="language-plaintext highlighter-rouge">root-&gt;next = b</code></li>
+</ol>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+<pre><code class="language-mermaid">graph TB
+root--&gt;b--&gt;c--&gt;Z
+c--&gt;W
+b--&gt;a--&gt;Y
+a--&gt;X
+</code></pre>
 
-<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry><entry><title type="html">测试</title><link href="http://localhost:4000/a/b/2024/08/17/my-first-markdown.html" rel="alternate" type="text/html" title="测试" /><published>2024-08-17T00:00:00+08:00</published><updated>2024-08-17T00:00:00+08:00</updated><id>http://localhost:4000/a/b/2024/08/17/my-first-markdown</id><content type="html" xml:base="http://localhost:4000/a/b/2024/08/17/my-first-markdown.html"><![CDATA[<pre><code class="language-mermaid">graph TB
-a--&gt;b
-a--&gt;c
-</code></pre>]]></content><author><name></name></author><category term="a" /><category term="b" /><category term="测试 mermaid" /><summary type="html"><![CDATA[graph TB a--&gt;b a--&gt;c]]></summary></entry></feed>
+<h3 id="rr型">RR型</h3>
+
+<pre><code class="language-mermaid">graph TB
+root--&gt;a--&gt;X
+a--&gt;b--&gt;Y
+b--&gt;c--&gt;Z
+c--&gt;W
+</code></pre>
+
+<p>变换步骤：<code class="language-plaintext highlighter-rouge">a</code> 相对 <code class="language-plaintext highlighter-rouge">b</code> 做 <code class="language-plaintext highlighter-rouge">左旋</code> 变换</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">a-&gt;right = b-&gt;left</code></li>
+  <li><code class="language-plaintext highlighter-rouge">b-&gt;left = a</code></li>
+  <li><code class="language-plaintext highlighter-rouge">root-&gt;next = b</code></li>
+</ol>
+
+<pre><code class="language-mermaid">graph TB
+root--&gt;b--&gt;a--&gt;X
+a--&gt;Y
+b--&gt;c--&gt;z
+c--&gt;W
+</code></pre>
+
+<h3 id="lr型">LR型</h3>
+
+<pre><code class="language-mermaid">graph TB
+root--&gt;a--&gt;b--&gt;Y
+a--&gt;X
+b--&gt;c--&gt;Z
+c--&gt;W
+</code></pre>
+
+<p>分步变换：</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">b</code> 相对 <code class="language-plaintext highlighter-rouge">c</code> 做 <code class="language-plaintext highlighter-rouge">左旋</code> 变换</li>
+  <li><code class="language-plaintext highlighter-rouge">a</code> 相对 <code class="language-plaintext highlighter-rouge">c</code> 做 <code class="language-plaintext highlighter-rouge">右旋</code> 变换</li>
+</ol>
+
+<pre><code class="language-mermaid">graph TB
+root--&gt;a--&gt;c--&gt;b--&gt;Y
+a--&gt;X
+b--&gt;Z
+c--&gt;W
+</code></pre>
+
+<pre><code class="language-mermaid">graph TB
+root--&gt;c--&gt;b--&gt;Y
+b--&gt;Z
+c--&gt;a--&gt;W
+a--&gt;X
+</code></pre>
+
+<p>一步到位法:</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">b-&gt;right = c-&gt;left</code></li>
+  <li><code class="language-plaintext highlighter-rouge">c-&gt;left = b</code></li>
+  <li><code class="language-plaintext highlighter-rouge">a-&gt;left = c-&gt;right</code></li>
+  <li><code class="language-plaintext highlighter-rouge">c-&gt;right = a</code></li>
+  <li><code class="language-plaintext highlighter-rouge">root-&gt;next = c</code></li>
+</ol>
+
+<h3 id="rl型">RL型</h3>
+
+<pre><code class="language-mermaid">graph TB
+root--&gt;a--&gt;X
+a--&gt;b--&gt;c--&gt;Z
+b--&gt;Y
+c--&gt;W
+</code></pre>
+
+<p>分步变换：</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">b</code> 相对 <code class="language-plaintext highlighter-rouge">c</code> 做 <code class="language-plaintext highlighter-rouge">右旋</code> 变换</li>
+  <li><code class="language-plaintext highlighter-rouge">a</code> 相对 <code class="language-plaintext highlighter-rouge">c</code> 做 <code class="language-plaintext highlighter-rouge">左旋</code> 变换</li>
+</ol>
+
+<pre><code class="language-mermaid">graph TB
+root--&gt;a--&gt;X
+a--&gt;c--&gt;Z
+c--&gt;b--&gt;W
+b--&gt;Y
+</code></pre>
+
+<pre><code class="language-mermaid">graph TB
+root--&gt;c--&gt;a--&gt;X
+a--&gt;Z
+c--&gt;b--&gt;W
+b--&gt;Y
+</code></pre>
+
+<p>一步到位法：</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">a-&gt;right = c-&gt;left</code></li>
+  <li><code class="language-plaintext highlighter-rouge">c-&gt;left = a</code></li>
+  <li><code class="language-plaintext highlighter-rouge">b-&gt;left = c-&gt;right</code></li>
+  <li><code class="language-plaintext highlighter-rouge">c-&gt;right = b</code></li>
+  <li><code class="language-plaintext highlighter-rouge">root-&gt;next = c</code></li>
+</ol>]]></content><author><name></name></author><summary type="html"><![CDATA[不平衡树的4种基本情形 不平衡树的4种基本情形 LL型 RR型 LR型 RL型]]></summary></entry></feed>

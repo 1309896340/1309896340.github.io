@@ -1,0 +1,5 @@
+// 使 mermaid 居中显示。ref: https://github.com/mermaid-js/mermaid/issues/150#issuecomment-689353672
+code.language-mermaid { 
+	display: flex !important; 
+	justify-content: center;
+}
