@@ -33,6 +33,7 @@ github_username:  "1309896340"
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-spaceship
 
 
 # comments:
