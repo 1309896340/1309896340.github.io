@@ -32,8 +32,8 @@ theme: minima
 plugins:
   - jekyll-feed
 
-gems:
-  - jekyll-mermaid
+# gems:
+#   - jekyll-mermaid
 
 
 # comments:
