@@ -1,5 +1,5 @@
 ---
-title: LOESS：局部散点图平滑(Locally Estimated scatterplot Smoothing) matlab实现
+title: LOESS：局部散点图平滑(Locally Estimated Scatterplot Smoothing) matlab实现
 categories: 
 
 math: true

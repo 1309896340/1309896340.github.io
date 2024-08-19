@@ -27,3 +27,8 @@ Github Pages的jekyll所[支持的Theme](https://pages.github.com/themes/)中，
 
 
 
+参考博客 [Github page数学公式无法正常显示解决方案(MathJax)](https://www.cnblogs.com/tungsten106/p/17953452/github_page_add_mathjax) 通过类似的做法实现对LaTeX公式的渲染
+
+
+
+
