@@ -1,10 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-19T14:50:01+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Windwhisper’s Blog</title><subtitle>个人博客，归纳分享所学技术</subtitle><entry><title type="html">测试markdown</title><link href="http://localhost:4000/2024/08/18/%E6%B5%8B%E8%AF%95markdown.html" rel="alternate" type="text/html" title="测试markdown" /><published>2024-08-18T00:00:00+08:00</published><updated>2024-08-18T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/18/%E6%B5%8B%E8%AF%95markdown</id><content type="html" xml:base="http://localhost:4000/2024/08/18/%E6%B5%8B%E8%AF%95markdown.html"><![CDATA[<h3 id="数学公式">数学公式</h3>
-<p>\(\sum_{i=0}^N f(x_i) \Delta x\)</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-19T15:18:10+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Windwhisper’s Blog</title><subtitle>个人博客，归纳分享所学技术</subtitle><entry><title type="html">测试markdown</title><link href="http://localhost:4000/2024/08/18/%E6%B5%8B%E8%AF%95markdown.html" rel="alternate" type="text/html" title="测试markdown" /><published>2024-08-18T00:00:00+08:00</published><updated>2024-08-18T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/18/%E6%B5%8B%E8%AF%95markdown</id><content type="html" xml:base="http://localhost:4000/2024/08/18/%E6%B5%8B%E8%AF%95markdown.html"><![CDATA[<h3 id="数学公式">数学公式</h3>
+<p>$ \sum_{i=0}^N f(x_i) \Delta x $</p>
 
 <h3 id="导入图片">导入图片</h3>
 
 <p>网络图片：
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/VirtualBox_Kali_Linux_29_03_2022_11_10_35.png/550px-VirtualBox_Kali_Linux_29_03_2022_11_10_35.png" alt="图片" /></p>
+
+<p>本地图片：
+<img src="/assets/images/test_image.png" alt="本地图片" /></p>
 
 <h3 id="饼图">饼图</h3>
 <pre><code class="language-mermaid">pie title Pets adopted by volunteers
@@ -19,7 +22,7 @@
     3(c)--&gt;5(Y)
     1(a)--&gt;6(Z)
     2(b)--&gt;7(W)
-</code></pre>]]></content><author><name></name></author><summary type="html"><![CDATA[数学公式 \(\sum_{i=0}^N f(x_i) \Delta x\)]]></summary></entry><entry><title type="html">二叉树平衡调整</title><link href="http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html" rel="alternate" type="text/html" title="二叉树平衡调整" /><published>2024-08-17T00:00:00+08:00</published><updated>2024-08-17T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4</id><content type="html" xml:base="http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html"><![CDATA[<h2 id="不平衡二叉树的4种基本情形">不平衡二叉树的4种基本情形</h2>
+</code></pre>]]></content><author><name></name></author><summary type="html"><![CDATA[数学公式 $ \sum_{i=0}^N f(x_i) \Delta x $]]></summary></entry><entry><title type="html">二叉树平衡调整</title><link href="http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html" rel="alternate" type="text/html" title="二叉树平衡调整" /><published>2024-08-17T00:00:00+08:00</published><updated>2024-08-17T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4</id><content type="html" xml:base="http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html"><![CDATA[<h2 id="不平衡二叉树的4种基本情形">不平衡二叉树的4种基本情形</h2>
 <ul>
   <li><a href="#不平衡二叉树的4种基本情形">不平衡二叉树的4种基本情形</a>
     <ul>

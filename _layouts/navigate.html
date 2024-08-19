@@ -1,38 +1,66 @@
-<!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-    {% include head-custom.html %}
+---
+layout: default
+---
 
-{% seo %}
-  </head>
+{% if page.title %}
+<h1 class="page-heading">{{page.title}}</h1>
+{% endif %}
 
-  <body>
 
-    <header>
-      <div class="container">
-        <a id="a-title" href="{{ '/' | relative_url }}">
-          <h1>{{ site.title | default: site.github.repository_name }}</h1>
-        </a>
-        <h2>{{ site.description | default: site.github.project_tagline }}</h2>
+{% if site.paginate %}
+{% assign posts = paginator.posts %}
+<!-- <p>这是paginator.posts</p> -->
+{% else %}
+<!-- <p>这是site.posts</p> -->
+{% assign posts = site.posts %}
+{% endif %}
 
-        <section id="downloads">
-          {% if site.show_downloads %}
-            <a href="{{ site.github.zip_url }}" class="btn">Download as .zip</a>
-            <a href="{{ site.github.tar_url }}" class="btn">Download as .tar.gz</a>
-          {% endif %}
-          <a href="{{ site.github.repository_url }}" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
 
-    <div class="container">
-      <section id="main_content">
-        {{ content }}
-      </section>
-    </div>
-  </body>
-</html>
+{%- if posts.size > 0 -%}
+{%- if page.list_title -%}
+<h2 class="post-list-heading">{{ page.list_title }}</h2>
+{%- endif -%}
+<ul class="post-list">
+    {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+    {%- for post in posts -%}
+    <li>
+        <span class="post-meta">{{ post.date | date: date_format }}</span>
+        <h3>
+            <a class="post-link" href="{{ post.url | relative_url }}">
+                {{ post.title | escape }}
+            </a>
+        </h3>
+        {%- if site.show_excerpts -%}
+        {{ post.excerpt }}
+        {%- endif -%}
+    </li>
+    {%- endfor -%}
+</ul>
+
+{% if site.paginate %}
+<div class="pager">
+    <ul class="pagination">
+        {%- if paginator.previous_page %}
+        <li><a href="{{ paginator.previous_page_path | relative_url }}" class="previous-page">{{ paginator.previous_page }}</a></li>
+        {%- else %}
+        <li>
+            <div class="pager-edge">•</div>
+        </li>
+        {%- endif %}
+
+        <li>
+            <div class="current-page">{{ paginator.page }}</div>
+        </li>
+
+        {%- if paginator.next_page %}
+        <li><a href="{{ paginator.next_page_path | relative_url }}" class="next-page">{{ paginator.next_page }}</a></li>
+        {%- else %}
+        <li>
+            <div class="pager-edge">•</div>
+        </li>
+        {%- endif %}
+    </ul>
+</div>
+{%- endif %}
+
+{%- endif -%}
