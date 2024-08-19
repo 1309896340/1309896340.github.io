@@ -21,7 +21,7 @@
 title: "Windwhisper's Blog"
 email: "1309896340@qq.com"
 description: >- # this means to ignore newlines until "baseurl:"
-  这个博主很懒，什么也没留下2333
+  个人博客，归纳分享所学技术
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 
