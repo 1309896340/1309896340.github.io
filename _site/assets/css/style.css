@@ -72,7 +72,7 @@ ul li { list-style-image: url("../images/bullet.png"); }
 
 blockquote { color: #aaa; padding-left: 10px; border-left: 1px dotted #666; }
 
-pre { background: rgba(0, 0, 0, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); padding: 10px; font-size: 16px; color: #b5e853; border-radius: 2px; word-wrap: normal; overflow: auto; overflow-y: hidden; }
+pre { display: inline-block; background: rgba(0, 0, 0, 0); border: 1px solid rgba(255, 255, 255, 0.15); padding: 10px; font-size: 16px; color: #b5e853; border-radius: 2px; word-wrap: normal; overflow: auto; overflow-y: hidden; }
 
 code.highlighter-rouge { background: rgba(0, 0, 0, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); padding: 0px 3px; margin: 0px -3px; color: #aa759f; border-radius: 2px; }
 

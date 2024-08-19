@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/assets/css/style.css?v=17a8f1fa4b3d48c5647844ec63e48fb87fa5bcd0">
-    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+<html lang=" en-US">
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/assets/css/style.css?v=b00118d2ddb9563b97ad7531464469c0430061fa">
+  <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
 
 <!-- Setup theme-color -->
 <!-- start theme color meta headers -->
@@ -22,10 +23,49 @@
 <!-- You can set your favicon here -->
 <!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
 
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        TeX: {
+          equationNumbers: {
+            autoNumber: "AMS"
+          }
+        },
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true,
+        "HTML-CSS": { fonts: ["TeX"] }
+      }
+    });
+    MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+  </script>
+  <script
+    type="text/javascript"
+    async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"
+  ></script>
+
+
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.0.2/+esm';
+    mermaid.initialize({ startOnLoad: false });
+    await mermaid.run({
+        querySelector: '.language-mermaid',
+    });
+</script>
+
+
 <!-- end custom head snippets -->
-
-
-<!-- Begin Jekyll SEO tag v2.8.0 -->
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>二叉树平衡调整 | Windwhisper’s Blog</title>
 <meta name="generator" content="Jekyll v3.10.0" />
 <meta property="og:title" content="二叉树平衡调整" />
@@ -43,27 +83,27 @@
 {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-08-17T00:00:00+08:00","datePublished":"2024-08-17T00:00:00+08:00","description":"不平衡二叉树的4种基本情形 不平衡二叉树的4种基本情形 LL型 RR型 LR型 RL型","headline":"二叉树平衡调整","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html"},"url":"http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html"}</script>
 <!-- End Jekyll SEO tag -->
 
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <header>
-      <div class="container">
-        <a id="a-title" href="/">
-          <h1>Windwhisper's Blog</h1>
-        </a>
-        <h2>个人博客，归纳分享所学技术</h2>
-
-        <section id="downloads">
-          
-          <a href="https://github.com/1309896340/1309896340.github.io" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
-
+  <header>
     <div class="container">
-      <section id="main_content">
-        <small>17 August 2024</small>
+      <a id="a-title" href="/">
+        <h1>Windwhisper's Blog</h1>
+      </a>
+      <h2>个人博客，归纳分享所学技术</h2>
+
+      <section id="downloads">
+        
+        <a href="https://github.com/1309896340/1309896340.github.io" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+      </section>
+    </div>
+  </header>
+
+  <div class="container">
+    <section id="main_content">
+      <small>17 August 2024</small>
 <h1>二叉树平衡调整</h1>
 
 <!-- <p class="view">by </p> -->
@@ -208,7 +248,8 @@ b--&gt;Y
 
   <small>tags: <em></em></small>
 
-      </section>
-    </div>
-  </body>
+    </section>
+  </div>
+</body>
+
 </html>
