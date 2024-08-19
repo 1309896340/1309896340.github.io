@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang=" en-US">
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/assets/css/style.css?v=70e0ee31f45a8fd8d326e773bd07b80c52a44740">
+  <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup theme-color -->
+<!-- start theme color meta headers -->
+<meta name="theme-color" content="#151515">
+<meta name="msapplication-navbutton-color" content="#151515">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- end theme color meta headers -->
+
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+
+
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.0.2/+esm';
+    mermaid.initialize({ startOnLoad: false });
+    await mermaid.run({
+        querySelector: '.language-mermaid',
+    });
+</script>
+
+
+<!-- end custom head snippets -->
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Github Pages上的Mermaid和LaTeX渲染方案 | Windwhisper’s Blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Github Pages上的Mermaid和LaTeX渲染方案" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="问题引出" />
+<meta property="og:description" content="问题引出" />
+<link rel="canonical" href="http://localhost:4000/2024/08/19/Github-Pages%E4%B8%8A%E7%9A%84Mermaid%E5%92%8CLaTeX%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88.html" />
+<meta property="og:url" content="http://localhost:4000/2024/08/19/Github-Pages%E4%B8%8A%E7%9A%84Mermaid%E5%92%8CLaTeX%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88.html" />
+<meta property="og:site_name" content="Windwhisper’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-08-19T00:00:00+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Github Pages上的Mermaid和LaTeX渲染方案" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-08-19T00:00:00+08:00","datePublished":"2024-08-19T00:00:00+08:00","description":"问题引出","headline":"Github Pages上的Mermaid和LaTeX渲染方案","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2024/08/19/Github-Pages%E4%B8%8A%E7%9A%84Mermaid%E5%92%8CLaTeX%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88.html"},"url":"http://localhost:4000/2024/08/19/Github-Pages%E4%B8%8A%E7%9A%84Mermaid%E5%92%8CLaTeX%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+
+  <header>
+    <div class="container">
+      <a id="a-title" href="/">
+        <h1>Windwhisper's Blog</h1>
+      </a>
+      <h2>个人博客，归纳分享所学技术</h2>
+
+      <section id="downloads">
+        
+        <a href="https://github.com/1309896340/1309896340.github.io" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+      </section>
+    </div>
+  </header>
+
+  <div class="container">
+    <section id="main_content">
+      <small>19 August 2024</small>
+<h1>Github Pages上的Mermaid和LaTeX渲染方案</h1>
+
+<!-- <p class="view">by </p> -->
+
+<h3 id="问题引出">问题引出</h3>
+
+<p>2022年，GitHub主站通过workflow提供了<a href="https://github.blog/developer-skills/github/include-diagrams-markdown-files-mermaid/">mermaid支持</a>，然而该服务尚未在GitHub Pages上得到支持。</p>
+
+<p>在原生jekyll中，可以通过插件的方式实现Mermaid和LaTeX表达式等内容的渲染，而在Github Pages中部署的jekyll默认只启用<a href="https://pages.github.com/versions/">白名单</a>中的插件，其允许使用的插件非常有限，jekyll-mermaid等插件不在其中。标准的Markdown语法也并不支持LaTeX数学公式的渲染，同样没有相关插件支持。</p>
+
+<h3 id="解决方案">解决方案</h3>
+
+<p>参考博客 <a href="https://juejin.cn/post/7208046833329930300">如何让 GitHub Pages 中通过 Markdown 编辑的博客支持 Mermaid？</a> 中的做法：在jekyll项目的 <code class="language-plaintext highlighter-rouge">_includes</code> 目录（如果没有就手动创建该目录）下创建一个 <code class="language-plaintext highlighter-rouge">.html</code> 文件用来加载外部CDN服务的Mermaid脚本，如 <code class="language-plaintext highlighter-rouge">mermaid_support.html</code>。内容如下</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"module"</span><span class="nt">&gt;</span>
+    <span class="k">import</span> <span class="nx">mermaid</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">https://cdn.jsdelivr.net/npm/mermaid@10.0.2/+esm</span><span class="dl">'</span><span class="p">;</span>
+    <span class="nx">mermaid</span><span class="p">.</span><span class="nx">initialize</span><span class="p">({</span> <span class="na">startOnLoad</span><span class="p">:</span> <span class="kc">false</span> <span class="p">});</span>
+    <span class="k">await</span> <span class="nx">mermaid</span><span class="p">.</span><span class="nx">run</span><span class="p">({</span>
+        <span class="na">querySelector</span><span class="p">:</span> <span class="dl">'</span><span class="s1">.language-mermaid</span><span class="dl">'</span><span class="p">,</span>
+    <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div></div>
+<p>此时还不能生效，需要将其加载到目标页面中。</p>
+
+<p>jekyll加载 <code class="language-plaintext highlighter-rouge">xxx.md</code> 文件时，会读取其上方的 <code class="language-plaintext highlighter-rouge">layout: xxx</code> 配置项，如这一项不存在，则默认为 <code class="language-plaintext highlighter-rouge">layout: post</code>，即加载 <code class="language-plaintext highlighter-rouge">_layouts</code> 下的 <code class="language-plaintext highlighter-rouge">post.html</code>。</p>
+
+<blockquote>
+  <p>Github Pages的jekyll所<a href="https://pages.github.com/themes/">支持的Theme</a>中，参考它们库中的 <code class="language-plaintext highlighter-rouge">_layouts</code> 目录，这是在部署到Github Pages时默认载入且不会出现在本地的文件，按照<a href="https://jekyllrb.com/docs/themes/">jekyll官方文档-Theme</a>的描述，通过在本地创建对应的目录和同名的文件以覆盖默认文件，实现主题的定制化。</p>
+</blockquote>
+
+<p>GitHub Pages所支持的主题通常包含 <code class="language-plaintext highlighter-rouge">default.html</code> 和 <code class="language-plaintext highlighter-rouge">post.html</code> 两个layout，而在我们的 <code class="language-plaintext highlighter-rouge">XXX.md</code> 中又导入了 <code class="language-plaintext highlighter-rouge">post.html</code> ，所以三者的关系通常是</p>
+
+<pre><code class="language-mermaid">graph BT
+a[XXX.md] --&gt; b[post.html] --&gt; c[default.html]
+</code></pre>
+
+<p>从对应的jekyll主题库中复制对应的 <code class="language-plaintext highlighter-rouge">default.html</code> 下来，拷贝到自己的 <code class="language-plaintext highlighter-rouge">_layouts</code> 目录下。打开浏览可以注意到里面的head标签</p>
+
+<p><img src="/assets/images/default.html的内容.png" alt="defalut.html的内容" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">head-custom.html</code> 其实是开放给我们自定义的头部，这样我们可以不用修改默认 <code class="language-plaintext highlighter-rouge">default.html</code>，比较优雅的做法是在 <code class="language-plaintext highlighter-rouge">_include</code> 目录下手动创建一个 <code class="language-plaintext highlighter-rouge">head_custom.html</code> 并写入以下内容</p>
+
+<p><img src="/assets/images/head_custom.html的内容.png" alt="head_custom.html的内容" /></p>
+
+<p>这样，当我们在 <code class="language-plaintext highlighter-rouge">xxx.md</code> 的导言区（用上下三横杠包围的区域）中定义 <code class="language-plaintext highlighter-rouge">mermaid: true</code> 时，这个渲染就会生效。这么做可以手动启停该渲染，在不需要的时候不启用可以优化页面加载速度，但要注意默认值是 <code class="language-plaintext highlighter-rouge">mermaid: false</code>，每次使用都要手动定义，嫌麻烦可以去掉首尾两行。</p>
+
+<p>最后，<code class="language-plaintext highlighter-rouge">bundle exec jekyll serve</code> 启动即可看到mermaid被正确渲染</p>
+
+<p>代码：</p>
+
+<p><img src="/assets/images/mermaid代码.png" alt="mermaid代码" /></p>
+
+<p>渲染结果：</p>
+
+<p><img src="/assets/images/mermaid渲染结果.png" alt="mermaid渲染结果" /></p>
+<blockquote>
+  <p>博主这里使用了<a href="https://github.com/pages-themes/hacker">jekyll-theme-hacker</a>主题，并进行了一些css的个人定制</p>
+</blockquote>
+
+<p>同样，参考博客 <a href="https://www.cnblogs.com/tungsten106/p/17953452/github_page_add_mathjax">Github page数学公式无法正常显示解决方案(MathJax)</a> 通过类似的做法实现对LaTeX公式的渲染</p>
+
+
+
+<!-- 
+  <small>tags: <em></em></small>
+ -->
+    </section>
+  </div>
+</body>
+
+</html>
