@@ -5,7 +5,7 @@
   <meta charset='utf-8'>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/assets/css/style.css?v=70e0ee31f45a8fd8d326e773bd07b80c52a44740">
+  <link rel="stylesheet" href="/assets/css/style.css?v=420a830fd2899b122cc49ab5bd2872bd01a025a5">
   <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
 
 <!-- Setup theme-color -->
@@ -61,7 +61,8 @@
 <title>LOESS：局部散点图平滑(Locally Estimated Scatterplot Smoothing) matlab实现 | Windwhisper’s Blog</title>
 <meta name="generator" content="Jekyll v3.10.0" />
 <meta property="og:title" content="LOESS：局部散点图平滑(Locally Estimated Scatterplot Smoothing) matlab实现" />
-<meta property="og:locale" content="en_US" />
+<meta name="author" content="Windwhisper" />
+<meta property="og:locale" content="zh_CN" />
 <meta name="description" content="前言 最近在学习时间序列预测，需要使用STL算法对时间序列进行季节性趋势分离，而其中使用到一个称作LOESS的平滑算法。 本文是对1990年一篇有关时间序列分析论文中提及的LOESS算法的部分解读，并基于matlab实现" />
 <meta property="og:description" content="前言 最近在学习时间序列预测，需要使用STL算法对时间序列进行季节性趋势分离，而其中使用到一个称作LOESS的平滑算法。 本文是对1990年一篇有关时间序列分析论文中提及的LOESS算法的部分解读，并基于matlab实现" />
 <link rel="canonical" href="http://localhost:4000/2023/07/11/LOESS-%E5%B1%80%E9%83%A8%E6%95%A3%E7%82%B9%E5%9B%BE%E5%B9%B3%E6%BB%91(Locally-Estimated-Scatterplot-Smoothing)-matlab%E5%AE%9E%E7%8E%B0.html" />
@@ -72,7 +73,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="LOESS：局部散点图平滑(Locally Estimated Scatterplot Smoothing) matlab实现" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-07-11T00:00:00+08:00","datePublished":"2023-07-11T00:00:00+08:00","description":"前言 最近在学习时间序列预测，需要使用STL算法对时间序列进行季节性趋势分离，而其中使用到一个称作LOESS的平滑算法。 本文是对1990年一篇有关时间序列分析论文中提及的LOESS算法的部分解读，并基于matlab实现","headline":"LOESS：局部散点图平滑(Locally Estimated Scatterplot Smoothing) matlab实现","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2023/07/11/LOESS-%E5%B1%80%E9%83%A8%E6%95%A3%E7%82%B9%E5%9B%BE%E5%B9%B3%E6%BB%91(Locally-Estimated-Scatterplot-Smoothing)-matlab%E5%AE%9E%E7%8E%B0.html"},"url":"http://localhost:4000/2023/07/11/LOESS-%E5%B1%80%E9%83%A8%E6%95%A3%E7%82%B9%E5%9B%BE%E5%B9%B3%E6%BB%91(Locally-Estimated-Scatterplot-Smoothing)-matlab%E5%AE%9E%E7%8E%B0.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Windwhisper"},"dateModified":"2023-07-11T00:00:00+08:00","datePublished":"2023-07-11T00:00:00+08:00","description":"前言 最近在学习时间序列预测，需要使用STL算法对时间序列进行季节性趋势分离，而其中使用到一个称作LOESS的平滑算法。 本文是对1990年一篇有关时间序列分析论文中提及的LOESS算法的部分解读，并基于matlab实现","headline":"LOESS：局部散点图平滑(Locally Estimated Scatterplot Smoothing) matlab实现","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2023/07/11/LOESS-%E5%B1%80%E9%83%A8%E6%95%A3%E7%82%B9%E5%9B%BE%E5%B9%B3%E6%BB%91(Locally-Estimated-Scatterplot-Smoothing)-matlab%E5%AE%9E%E7%8E%B0.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/icons/favicon.ico"},"name":"Windwhisper"},"url":"http://localhost:4000/2023/07/11/LOESS-%E5%B1%80%E9%83%A8%E6%95%A3%E7%82%B9%E5%9B%BE%E5%B9%B3%E6%BB%91(Locally-Estimated-Scatterplot-Smoothing)-matlab%E5%AE%9E%E7%8E%B0.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -84,7 +85,7 @@
       <a id="a-title" href="/">
         <h1>Windwhisper's Blog</h1>
       </a>
-      <h2>个人博客，归纳分享所学技术</h2>
+      <h2>个人博客，归纳分享</h2>
 
       <section id="downloads">
         
@@ -98,7 +99,7 @@
       <small>11 July 2023</small>
 <h1>LOESS：局部散点图平滑(Locally Estimated Scatterplot Smoothing) matlab实现</h1>
 
-<!-- <p class="view">by </p> -->
+<!-- <p class="view">by Windwhisper</p> -->
 
 <h2 id="前言">前言</h2>
 <p>最近在学习时间序列预测，需要使用STL算法对时间序列进行季节性趋势分离，而其中使用到一个称作LOESS的平滑算法。

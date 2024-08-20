@@ -19,33 +19,27 @@
 # in the templates via {{ site.myvariable }}.
 
 title: "Windwhisper's Blog"
+author: "Windwhisper"
 email: "1309896340@qq.com"
 description: >- # this means to ignore newlines until "baseurl:"
-  个人博客，归纳分享所学技术
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+  个人博客，归纳分享
+baseurl: 
+url: 
+logo: /assets/icons/favicon.ico
 twitter_username: 
 github_username:  "1309896340"
+social: 
+  name: "Zhu Shunyao"
+  links: 
+locale: zh_CN
 
-# Build settings
-# theme: minima
-# plugins:
-#   - jekyll-feed
-
-# remote_theme: pages-themes/hacker@v0.2.0
-# plugins:
-# - jekyll-remote-theme # add this line to the plugins list if you already have one
 
 theme: jekyll-theme-hacker
-
 markdown: kramdown
 
-
-# comments:
-#   active: utterances
-#   utterances:
-#     repo: 1309896340.github.io
-#     issue_term: 测试
+plugins:
+  - jekyll-seo-tag
+  - jemoji
 
 # Exclude from processing.
 # The following items will not be processed, by default.

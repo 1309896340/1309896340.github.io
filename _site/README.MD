@@ -57,40 +57,8 @@ a[XXX.md] --> b[post.html] --> c[default.html]
 {% endif %}
 ```
 
-这样，当我们在 `xxx.md` 的导言区（用上下三横杠包围的区域）中定义 `mermaid: true` 时，这个渲染就会生效。这么做可以手动启停该渲染，在不需要的时候不启用可以优化页面加载速度，但要注意默认值是 `mermaid: false`，每次使用都要手动定义，嫌麻烦可以去掉首尾两行。
 
-最后，`bundle exec jekyll serve` 启动即可看到mermaid被正确渲染
-
-代码：
-
-```
-#### 结构图
-```mermaid
-    graph TB
-    1(a)-->2(b)-->3(c)-->4(X)
-    3(c)-->5(Y)
-    1(a)-->6(Z)
-    2(b)-->7(W)
-```
-
-#### 流程图
-```mermaid
-flowchart TD
-  A[Start] --> B{Is it?}
-  B -->|Yes| C[OK]
-  C --> D[Rethink]
-  D --> B
-  B ---->|No| E[End]
-```
-```
-
-渲染结果：
-![mermaid渲染结果](/assets/images/mermaid渲染结果.png)
-> 博主这里使用了[jekyll-theme-hacker](https://github.com/pages-themes/hacker)主题，并进行了一些css的个人定制
-
-### LaTeX公式渲染
-
-参考博客 [Github page数学公式无法正常显示解决方案(MathJax)](https://www.cnblogs.com/tungsten106/p/17953452/github_page_add_mathjax) 通过类似的做法实现对LaTeX公式的渲染
+同样，参考博客 [Github page数学公式无法正常显示解决方案(MathJax)](https://www.cnblogs.com/tungsten106/p/17953452/github_page_add_mathjax) 通过类似的做法实现对LaTeX公式的渲染
 
 
 
