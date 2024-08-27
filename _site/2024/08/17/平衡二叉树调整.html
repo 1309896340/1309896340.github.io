@@ -5,7 +5,7 @@
   <meta charset='utf-8'>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/assets/css/style.css?v=70e0ee31f45a8fd8d326e773bd07b80c52a44740">
+  <link rel="stylesheet" href="/assets/css/style.css?v=6c8e69270e46e7caefd208c690b7a69a9efbaeef">
   <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
 
 <!-- Setup theme-color -->
@@ -56,8 +56,13 @@
 
 
 <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.0.2/+esm';
-    mermaid.initialize({ startOnLoad: false });
+    // import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.0.2/+esm';
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+        startOnLoad: false,
+        // securityLevel: 'loose',
+        theme: 'dark'
+    });
     await mermaid.run({
         querySelector: '.language-mermaid',
     });
@@ -107,6 +112,9 @@
 <h1>二叉树平衡调整</h1>
 
 <!-- <p class="view">by </p> -->
+
+
+<ul><li><a href="#不平衡二叉树的4种基本情形">不平衡二叉树的4种基本情形</a><ul><li><a href="#ll型">LL型</a></li><li><a href="#rr型">RR型</a></li><li><a href="#lr型">LR型</a></li><li><a href="#rl型">RL型</a></li></ul></li></ul>
 
 <h2 id="不平衡二叉树的4种基本情形">不平衡二叉树的4种基本情形</h2>
 <ul>

@@ -1,4 +1,141 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-19T18:47:11+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Windwhisper’s Blog</title><subtitle>个人博客，归纳分享所学技术</subtitle><entry><title type="html">Github Pages上的Mermaid和LaTeX渲染方案</title><link href="http://localhost:4000/2024/08/19/Github-Pages%E4%B8%8A%E7%9A%84Mermaid%E5%92%8CLaTeX%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88.html" rel="alternate" type="text/html" title="Github Pages上的Mermaid和LaTeX渲染方案" /><published>2024-08-19T00:00:00+08:00</published><updated>2024-08-19T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/19/Github%20Pages%E4%B8%8A%E7%9A%84Mermaid%E5%92%8CLaTeX%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88</id><content type="html" xml:base="http://localhost:4000/2024/08/19/Github-Pages%E4%B8%8A%E7%9A%84Mermaid%E5%92%8CLaTeX%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88.html"><![CDATA[<h3 id="问题引出">问题引出</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-27T19:42:42+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Windwhisper’s Blog</title><subtitle>个人博客，归纳分享所学技术</subtitle><entry><title type="html">C++内存管理</title><link href="http://localhost:4000/2024/08/27/c++-STL%E5%AE%B9%E5%99%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.html" rel="alternate" type="text/html" title="C++内存管理" /><published>2024-08-27T00:00:00+08:00</published><updated>2024-08-27T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/27/c++%20STL%E5%AE%B9%E5%99%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86</id><content type="html" xml:base="http://localhost:4000/2024/08/27/c++-STL%E5%AE%B9%E5%99%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.html"><![CDATA[<h1 id="stl容器内存管理">STL容器内存管理</h1>
+
+<p>在使用STL容器时，需要面对各种可能数据类型进行管理，它们有的是基本数据类型，有的是结构体、有的是类对象，也有的是这些类型的指针，或是其他更加复杂的复合形式。在如此复杂的情形下，稍有不慎就会导致野指针、内存泄漏等问题，本文就如何正确处理这些问题做一个归纳总结。</p>
+
+<h2 id="问题引出">问题引出</h2>
+
+<h3 id="栈变量与堆变量">栈变量与堆变量</h3>
+
+<p>声明在栈上的变量，其生命周期被限制在各自的作用域上，脱离作用域，变量自动释放</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">func</span><span class="p">(){</span>
+    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>     <span class="c1">// a作用域的开始</span>
+    <span class="c1">// a存在的作用域</span>
+<span class="p">}</span>   <span class="c1">// 函数返回，a自动释放</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+    <span class="c1">// a 不存在于函数外的作用域名</span>
+    <span class="n">func</span><span class="p">();</span>
+    <span class="c1">// a 不存在于函数外的作用域名</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>声明在堆上的变量，即便指向它的指针被释放，堆变量也仍然存在，只是程序再也无法控制这段内存，所以被称为<strong>内存泄漏</strong></p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">func</span><span class="p">(){</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">;</span>
+    <span class="c1">// 申请但没有释放，内存泄漏</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+    <span class="n">func</span><span class="p">();</span>
+    <span class="c1">// ptr在func()返回时被释放，再也没有任何方法访问new申请的int内存空间</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这里要注意的是</p>
+<ol>
+  <li>在 <code class="language-plaintext highlighter-rouge">func()</code> 中，<code class="language-plaintext highlighter-rouge">ptr</code> 是栈变量，而 <code class="language-plaintext highlighter-rouge">ptr</code> 指向的内存空间是堆空间</li>
+  <li><code class="language-plaintext highlighter-rouge">ptr</code> 在 <code class="language-plaintext highlighter-rouge">func()</code> 返回时会自动释放，而 <code class="language-plaintext highlighter-rouge">ptr</code> 指向的内存不会</li>
+</ol>
+
+<p>因此，动态内存(堆内存)的使用，必须有始有终。</p>
+
+<ul>
+  <li>在C语言中，有 <code class="language-plaintext highlighter-rouge">malloc()</code> 就有 <code class="language-plaintext highlighter-rouge">free()</code></li>
+  <li>在C++中，有 <code class="language-plaintext highlighter-rouge">new</code> 就有 <code class="language-plaintext highlighter-rouge">delete</code></li>
+</ul>
+
+<p>两者必须一一对应，否则：</p>
+
+<ul>
+  <li>“申请”比”释放”多：内存泄漏</li>
+  <li>“申请”比”释放”少：多次释放</li>
+</ul>
+
+<h2 id="动态内存谁来管">动态内存谁来管？</h2>
+
+<h3 id="自动和手动">自动和手动</h3>
+
+<ol>
+  <li>在C语言中，对于使用了动态内存的代码封装，一般都有一对明确的”初始化”和”销毁”操作，例如文件io操作中的 <code class="language-plaintext highlighter-rouge">open()</code> 和 <code class="language-plaintext highlighter-rouge">close()</code></li>
+  <li>在c++中，一般在构造函数中申请堆内存，在析构函数中释放堆内存(需要手动编写释放逻辑)。</li>
+</ol>
+
+<p>c++中，类的实例化分为”栈实例化”与”堆实例化”</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">A</span><span class="p">{</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+    <span class="nl">public:</span>
+        <span class="n">A</span><span class="p">()</span><span class="o">:</span><span class="n">data</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">){}</span>
+        <span class="o">~</span><span class="n">A</span><span class="p">(){</span><span class="k">delete</span> <span class="n">data</span><span class="p">;}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+    <span class="n">A</span> <span class="n">a</span><span class="p">;</span>                <span class="c1">// 栈实例化，调用构造，a.data申请动态内存</span>
+    <span class="n">A</span> <span class="o">*</span><span class="n">pa</span> <span class="o">=</span> <span class="k">new</span> <span class="n">A</span><span class="p">;</span>      <span class="c1">// 堆实例化，调用构造，pa-&gt;data申请动态内存</span>
+    <span class="n">A</span> <span class="o">*</span><span class="n">pa_ok</span> <span class="o">=</span> <span class="k">new</span> <span class="n">A</span><span class="p">;</span>
+    <span class="k">delete</span> <span class="n">pa_ok</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="c1">// 栈变量a自动释放，触发析构函数释放a.data指向的堆内存</span>
+    <span class="c1">// 栈变量pa自动释放，但是*pa和pa-&gt;data都没有释放，这两个堆内存空间泄漏</span>
+    <span class="c1">// 栈变量pa_ok自动释放，在这之前，析构函数被自动调用</span>
+    <span class="c1">// pa_ok-&gt;data指向的堆空间先释放，而后pa_ok指向的声明在堆空间上的A实例被释放，最后栈变量pa_ok被释放</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>正因为动态内存的管理中同时存在着”自动”和”手动”两种行为，因此很容易出现”多释放”和”漏释放”两种情况。</p>
+
+<p>因此，明确谁是这块堆空间的实际管理者，非常重要。</p>
+
+<h3 id="指针的备份">指针的备份</h3>
+
+<p>指针是堆内存的控制杆(handler)，丢失了控制杆就丢失了堆内存(泄漏)。然而，指针可以不唯一，这就导致了<strong>多重释放</strong>的潜在风险。</p>
+
+<h4 id="一个典型的错误示例">一个典型的错误示例</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">A</span><span class="p">{</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+    <span class="nl">public:</span>
+        <span class="n">A</span><span class="p">()</span><span class="o">:</span><span class="n">data</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">){</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">"构造函数初始化 this=%#x data=%#x</span><span class="se">\\</span><span class="s">n"</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="o">~</span><span class="n">A</span><span class="p">(){</span>
+            <span class="k">delete</span> <span class="n">data</span><span class="p">;</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">"析构函数调用 this=%#x</span><span class="se">\\</span><span class="s">n"</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+        <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="n">func_value</span><span class="p">(</span><span class="n">A</span> <span class="n">p</span><span class="p">){}</span>       <span class="c1">// 空函数，只为了演示值传递的效果</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+    <span class="n">A</span> <span class="n">a</span><span class="p">;</span>
+    <span class="n">func_value</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>   <span class="c1">// 在结束时会发生报错</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>严谨地来说，”指针”是存储地址的变量，但有时为了表述方便，会直接称呼”地址”为”指针”，因为我们倾向于将变量的概念等同于其存储的值的概念，这在一定程度上造成了混淆，需要结合语境进行区分。例如，指针传递实际上是地址值的传递。</p>
+</blockquote>
+
+<p>以上代码在执行到主函数的返回时会发生报错，报错位置在类A析构函数的 <code class="language-plaintext highlighter-rouge">delete data;</code> 行</p>
+
+<h4 id="发生了什么">发生了什么？</h4>
+
+<p>类对象的值传递默认为”浅拷贝”，即拷贝所有成员变量的”值”，对指针而言，地址值的复制意味着多了一个指针指向同一块堆内存</p>
+
+<pre><code class="language-mermaid">    graph LR
+    ptr1[a.data] --&gt; a[堆内存]
+    ptr2[p.data] --&gt; a
+</code></pre>
+
+<p>对象的值传递导致指针也复制了一份，而函数的形式参数同时也是该函数的局部变量，还是个栈变量，当 <code class="language-plaintext highlighter-rouge">func_value()</code> 中</p>]]></content><author><name></name></author><summary type="html"><![CDATA[STL容器内存管理]]></summary></entry><entry><title type="html">Github Pages上的Mermaid和LaTeX渲染方案</title><link href="http://localhost:4000/2024/08/19/Github-Pages%E4%B8%8A%E7%9A%84Mermaid%E5%92%8CLaTeX%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88.html" rel="alternate" type="text/html" title="Github Pages上的Mermaid和LaTeX渲染方案" /><published>2024-08-19T00:00:00+08:00</published><updated>2024-08-19T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/19/Github%20Pages%E4%B8%8A%E7%9A%84Mermaid%E5%92%8CLaTeX%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88</id><content type="html" xml:base="http://localhost:4000/2024/08/19/Github-Pages%E4%B8%8A%E7%9A%84Mermaid%E5%92%8CLaTeX%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88.html"><![CDATA[<h3 id="问题引出">问题引出</h3>
 
 <p>2022年，GitHub主站通过workflow提供了<a href="https://github.blog/developer-skills/github/include-diagrams-markdown-files-mermaid/">mermaid支持</a>，然而该服务尚未在GitHub Pages上得到支持。</p>
 
@@ -53,102 +190,7 @@ a[XXX.md] --&gt; b[post.html] --&gt; c[default.html]
   <p>博主这里使用了<a href="https://github.com/pages-themes/hacker">jekyll-theme-hacker</a>主题，并进行了一些css的个人定制</p>
 </blockquote>
 
-<p>同样，参考博客 <a href="https://www.cnblogs.com/tungsten106/p/17953452/github_page_add_mathjax">Github page数学公式无法正常显示解决方案(MathJax)</a> 通过类似的做法实现对LaTeX公式的渲染</p>]]></content><author><name></name></author><summary type="html"><![CDATA[问题引出]]></summary></entry><entry><title type="html">测试markdown</title><link href="http://localhost:4000/2024/08/18/%E6%B5%8B%E8%AF%95markdown.html" rel="alternate" type="text/html" title="测试markdown" /><published>2024-08-18T00:00:00+08:00</published><updated>2024-08-18T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/18/%E6%B5%8B%E8%AF%95markdown</id><content type="html" xml:base="http://localhost:4000/2024/08/18/%E6%B5%8B%E8%AF%95markdown.html"><![CDATA[<h3 id="列表元素">列表元素</h3>
-<ol>
-  <li>有序列表1</li>
-  <li>有序列表2
-    <ol>
-      <li>有序列表2.1</li>
-      <li>有序列表2.2</li>
-    </ol>
-  </li>
-  <li>有序列表3</li>
-</ol>
-
-<ul>
-  <li>无序列表1</li>
-  <li>无序列表2
-    <ul>
-      <li>无序列表2.1</li>
-      <li>无序列表2.2</li>
-    </ul>
-  </li>
-  <li>无序列表3</li>
-</ul>
-
-<h3 id="引用">引用</h3>
-<blockquote>
-  <p>“When you gaze into the abyss, the abyss also gazes into you.”  by <em>Friedrich Wilhelm Nietzsche</em></p>
-</blockquote>
-
-<h3 id="代码块">代码块</h3>
-
-<h4 id="c语言">C语言</h4>
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="n">using</span> <span class="n">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">"Hello World!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h4 id="matlab脚本">matlab脚本</h4>
-<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-<span class="nb">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s2">"r.-"</span><span class="p">);</span>
-</code></pre></div></div>
-
-<h4 id="python脚本">python脚本</h4>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="n">__main__</span><span class="p">:</span>
-  <span class="k">print</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">)</span>
-  <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
-  <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
-</code></pre></div></div>
-
-<h3 id="数学公式">数学公式</h3>
-
-<h4 id="行内公式">行内公式</h4>
-
-<p>$ \sum_{i=0}^N f(x_i) \Delta x $</p>
-
-<h4 id="行间公式">行间公式</h4>
-
-\[F(\omega) = \mathcal F[f(t)] = \int_{-\infty}^{\infty} f(t)\mathrm e^{-i \omega t}\, \mathrm d t\]
-
-<h3 id="导入图片">导入图片</h3>
-
-<p>网络图片：
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/VirtualBox_Kali_Linux_29_03_2022_11_10_35.png/550px-VirtualBox_Kali_Linux_29_03_2022_11_10_35.png" alt="图片" /></p>
-
-<p>本地图片：
-<img src="/assets/images/test_image.png" alt="本地图片" /></p>
-
-<h3 id="mermaid">mermaid</h3>
-
-<h4 id="饼图">饼图</h4>
-<pre><code class="language-mermaid">pie title Pets adopted by volunteers
-  "Dogs" : 386
-  "Cats" : 85
-  "Rats" : 35
-</code></pre>
-
-<h4 id="结构图">结构图</h4>
-<pre><code class="language-mermaid">    graph TB
-    1(a)--&gt;2(b)--&gt;3(c)--&gt;4(X)
-    3(c)--&gt;5(Y)
-    1(a)--&gt;6(Z)
-    2(b)--&gt;7(W)
-</code></pre>
-
-<h4 id="流程图">流程图</h4>
-<pre><code class="language-mermaid">flowchart TD
-  A[Start] --&gt; B{Is it?}
-  B --&gt;|Yes| C[OK]
-  C --&gt; D[Rethink]
-  D --&gt; B
-  B ----&gt;|No| E[End]
-</code></pre>]]></content><author><name></name></author><summary type="html"><![CDATA[列表元素 有序列表1 有序列表2 有序列表2.1 有序列表2.2 有序列表3]]></summary></entry><entry><title type="html">二叉树平衡调整</title><link href="http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html" rel="alternate" type="text/html" title="二叉树平衡调整" /><published>2024-08-17T00:00:00+08:00</published><updated>2024-08-17T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4</id><content type="html" xml:base="http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html"><![CDATA[<h2 id="不平衡二叉树的4种基本情形">不平衡二叉树的4种基本情形</h2>
+<p>同样，参考博客 <a href="https://www.cnblogs.com/tungsten106/p/17953452/github_page_add_mathjax">Github page数学公式无法正常显示解决方案(MathJax)</a> 通过类似的做法实现对LaTeX公式的渲染</p>]]></content><author><name></name></author><summary type="html"><![CDATA[问题引出]]></summary></entry><entry><title type="html">二叉树平衡调整</title><link href="http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html" rel="alternate" type="text/html" title="二叉树平衡调整" /><published>2024-08-17T00:00:00+08:00</published><updated>2024-08-17T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4</id><content type="html" xml:base="http://localhost:4000/2024/08/17/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4.html"><![CDATA[<h2 id="不平衡二叉树的4种基本情形">不平衡二叉树的4种基本情形</h2>
 <ul>
   <li><a href="#不平衡二叉树的4种基本情形">不平衡二叉树的4种基本情形</a>
     <ul>
