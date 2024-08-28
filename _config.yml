@@ -33,6 +33,8 @@ social:
   links: 
 locale: zh_CN
 
+repository: 1309896340/1309896340.github.io
+
 
 theme: jekyll-theme-hacker
 markdown: kramdown
